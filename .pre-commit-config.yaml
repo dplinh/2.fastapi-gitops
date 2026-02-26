@@ -3,3 +3,32 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
+      - id: check-added-large-files
+        args: [ "--maxkb=1024" ]  # Prevent files > 1MB
+      - id: check-yaml
+        exclude: ^charts/  # Exclude Helm charts directory
+
+  # Sort Python imports
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+
+  # Python code style (PEP8, linting)
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.0.0
+    hooks:
+      - id: flake8
+
+  # Security issues in Python code
+  - repo: https://github.com/pycqa/bandit
+    rev: 1.7.7
+    hooks:
+      - id: bandit
+        args: ["-r", "."]
+
+  # Detect secrets
+  - repo: https://github.com/Yelp/detect-secrets
+    rev: v1.4.0
+    hooks:
+      - id: detect-secrets
