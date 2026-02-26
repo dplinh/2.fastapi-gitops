@@ -6,7 +6,7 @@ repos:
       - id: check-added-large-files
         args: [ "--maxkb=1024" ]  # Prevent files > 1MB
       - id: check-yaml
-        exclude: ^charts/  # Exclude Helm charts directory
+        exclude: ^helm/
 
   # Sort Python imports
   - repo: https://github.com/pycqa/isort
@@ -14,21 +14,22 @@ repos:
     hooks:
       - id: isort
 
-  # Python code style (PEP8, linting)
-  - repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
+  # Security issues
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.93.3
     hooks:
-      - id: flake8
-
-  # Security issues in Python code
-  - repo: https://github.com/pycqa/bandit
-    rev: 1.7.7
-    hooks:
-      - id: bandit
-        args: ["-r", "."]
+      - id: trufflehog
 
   # Detect secrets
-  - repo: https://github.com/Yelp/detect-secrets
-    rev: v1.4.0
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
     hooks:
-      - id: detect-secrets
+      - id: gitleaks
+
+  # Code style
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.0
+    hooks:
+      - id: ruff-check
+        args: [ --fix ]
+      - id: ruff-format
