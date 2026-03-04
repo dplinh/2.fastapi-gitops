@@ -3,3 +3,33 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
+      - id: check-added-large-files
+        args: [ "--maxkb=1024" ]  # Prevent files > 1MB
+      - id: check-yaml
+        exclude: ^helm/
+
+  # Sort Python imports
+  - repo: https://github.com/pycqa/isort
+    rev: 5.13.2
+    hooks:
+      - id: isort
+
+  # Security issues
+  - repo: https://github.com/trufflesecurity/trufflehog
+    rev: v3.93.3
+    hooks:
+      - id: trufflehog
+
+  # Detect secrets
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.0
+    hooks:
+      - id: gitleaks
+
+  # Code style
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.15.0
+    hooks:
+      - id: ruff-check
+        args: [ --fix ]
+      - id: ruff-format
